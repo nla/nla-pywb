@@ -1,0 +1,12 @@
+<meta charset='utf-8'>
+<title>Webpage snapshot not found</title>
+<style>
+    body { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
+    .emoji { font-size: 140%; }
+</style>
+<h1><span class='emoji'>⚠️ </span>Webpage snapshot not found</h1>
+<p>It looks like we don’t have this webpage snapshot.</p>
+<script>
+    var ts = location.href.split('/')[4].replace('mp_','');
+    parent.postMessage({'wb_type': 'load', 'url': '{{ url }}', 'ts': ts, 'title': 'Webpage snapshot not found', 'status': 404}, "*");
+</script>
