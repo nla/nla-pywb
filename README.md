@@ -15,3 +15,8 @@ WARC_URL=http://warc-server/warcs/
 WorkingDirectory = /apps/pywb/awa
 ExecStart = /usr/bin/logduct-run /apps/pywb/bin/pywb --port ${PORT}
 ```
+
+## Multiple access points
+
+Currently multiple access points are configured by deploying a separate instance of Pywb for each with a different
+CDX_URL configured.
