@@ -1,0 +1,12 @@
+collections:
+  awa:
+    archive_paths: WARC_URL
+    index:
+      type: cdx
+      api_url: CDX_URL?url={url}&closest={closest}&sort=closest
+
+      # outbackcdx doesn't serve warc records
+      # so we blank replay_url to force pywb to read the warc file itself
+      replay_url: ""
+
+framed_replay: false
