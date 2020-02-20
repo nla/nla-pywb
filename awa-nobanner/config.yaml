@@ -1,5 +1,5 @@
 collections:
-  awa:
+  awa-nobanner:
     archive_paths: WARC_URL
     index:
       type: cdx
