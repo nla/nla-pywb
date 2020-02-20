@@ -10,7 +10,6 @@ collections:
       replay_url: ""
   awa-nobanner:
     framed_replay: false
-    banner_html: empty.html
     archive_paths: WARC_URL
     index:
       type: cdx
