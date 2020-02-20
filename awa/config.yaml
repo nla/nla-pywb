@@ -9,8 +9,8 @@ collections:
       # so we blank replay_url to force pywb to read the warc file itself
       replay_url: ""
   awa-nobanner:
-    enable_banner: false
     framed_replay: false
+    banner_html: empty.html
     archive_paths: WARC_URL
     index:
       type: cdx
