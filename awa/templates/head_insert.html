@@ -72,7 +72,10 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 </script>
-<script src="{{ static_prefix }}/ruffle/20210126/ruffle.js" defer></script>
+<script src="{{ static_prefix }}/ruffle/20210126/ruffle.js"></script>
+<script>
+window.RufflePlayer.config.publicPath = "{{ static_prefix }}/ruffle/20210126/";
+</script>
 <!-- end NLA extras -->
 
 {{ banner_html }}
