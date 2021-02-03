@@ -73,8 +73,11 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // Site-specific workarounds:
-// pretend to be netscape 4 for 20000914130000/http://www.unolympics.com/index.html
-document.layers = true; 
+
+// https://webarchive.nla.gov.au/awa/20001004130000/http://www.unolympics.com/index.html
+if (wbinfo.url.startsWith("http://www.unolympics.com/")) {
+  document.layers = true; // trick version detection into thinking we're Netspace 4
+}
 </script>
 <script src="{{ static_prefix }}/ruffle/20210126/ruffle.js"></script>
 <script>
