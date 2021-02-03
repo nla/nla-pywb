@@ -71,6 +71,10 @@ document.addEventListener("DOMContentLoaded", function() {
     fields[i].title = 'Password fields are disabled in the web archive';
   }
 });
+
+// Site-specific workarounds:
+// pretend to be netscape 4 for 20000914130000/http://www.unolympics.com/index.html
+document.layers = true; 
 </script>
 <script src="{{ static_prefix }}/ruffle/20210126/ruffle.js"></script>
 <script>
