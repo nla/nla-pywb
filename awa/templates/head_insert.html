@@ -70,6 +70,20 @@ document.addEventListener("DOMContentLoaded", function() {
     fields[i].disabled = true;
     fields[i].title = 'Password fields are disabled in the web archive';
   }
+
+  // Site-specific workarounds:
+
+  // replace old flash video player with a HTML5 video tag
+  // eg https://webarchive.nla.gov.au/awa/20131211003215/http://pandora.nla.gov.au/pan/120423/20131210-0041/www.youtube.com/watch78bd.html
+  for (const embed of document.querySelectorAll('embed[src="player.swf"][flashvars*="file="][flashvars*=".mp4"]')) {
+    const flashvars = Object.fromEntries(embed.attributes['flashvars'].value.split('&').map(s => s.split('=', 2)));
+    const video = document.createElement('video');
+    video.src = flashvars['file'];
+    video.width = flashvars['width'];
+    video.height = flashvars['height'];
+    video.controls = true;
+    embed.parentNode.replaceChild(video, embed);
+  }
 });
 
 // Site-specific workarounds:
@@ -78,20 +92,6 @@ document.addEventListener("DOMContentLoaded", function() {
 if (wbinfo.url.startsWith("http://www.unolympics.com/")) {
   document.layers = true; // trick version detection into thinking we're Netscape 4
 }
-
-// replace old flash video player with a HTML5 video tag
-// eg https://webarchive.nla.gov.au/awa/20131211003215/http://pandora.nla.gov.au/pan/120423/20131210-0041/www.youtube.com/watch78bd.html
-for (const embed of document.querySelectorAll('embed[src="player.swf"][flashvars*="file="][flashvars*=".mp4"]')) {
-    const flashvars = Object.fromEntries(embed.attributes['flashvars'].value.split('&').map(s => s.split('=', 2)));
-    const video = document.createElement('video');
-    video.src = flashvars['file'];
-    video.width = flashvars['width'];
-    video.height = flashvars['height'];
-    video.controls = true;
-    embed.parentNode.replaceChild(video, embed);
-}
-
-Object.fromEntries(node.attributes['flashvars'].value.split('&').map(s => s.split('=', 2)))
 </script>
 <script src="{{ static_prefix }}/ruffle/20210126/ruffle.js"></script>
 <script>
