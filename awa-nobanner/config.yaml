@@ -3,4 +3,4 @@ collections:
     archive_paths: WARC_URL
     index: xmlquery+CDX_URL
 framed_replay: false
-redirect_to_exact: true
+redirect_to_exact: false
