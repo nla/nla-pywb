@@ -77,12 +77,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // replace old flash video player with a HTML5 video tag
   // eg https://webarchive.nla.gov.au/awa/20131211003215/http://pandora.nla.gov.au/pan/120423/20131210-0041/www.youtube.com/watch78bd.html
-  for (const embed of document.querySelectorAll('embed[src="player.swf"][flashvars*="file="][flashvars*=".mp4"]')) {
+  //    http://pandora.nla.gov.au/pan/145179/20140403-1226/HazelwoodCFA2.html
+  for (const embed of document.querySelectorAll('embed[src*="player.swf"][flashvars*="file="]')) {
     const flashvars = Object.fromEntries(embed.attributes['flashvars'].value.split('&').map(s => s.split('=', 2)));
+    let file = flashvars['file'];
+    let src;
+    if (file.endsWith(".mp4")) {
+      src = file;
+    } else if (file.endsWith(".flv")) {
+      let flvUrl = new URL(file, document.location).toString().substr(wbinfo.prefix.length + wbinfo.request_ts.length + 1)
+      src = wbinfo.static_prefix + "/transcode?date=" + wbinfo.timestamp + "&url=" + encodeURIComponent(flvUrl);
+    } else {
+      continue;
+    }
     const video = document.createElement('video');
-    video.src = flashvars['file'];
+    video.preload = 'none';
+    video.src = src;
     video.width = flashvars['width'];
     video.height = flashvars['height'];
+    if (flashvars['image']) video.poster = flashvars['image'];
     video.controls = true;
     embed.parentNode.replaceChild(video, embed);
   }
