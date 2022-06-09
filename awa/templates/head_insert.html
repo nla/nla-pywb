@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
     } else if (file.endsWith(".flv")) {
       let flvUrl = new URL(file, document.location).toString().substring(wbinfo.prefix.length +
           wbinfo.request_ts.length + wbinfo.mod.length + 1)
-      src = wbinfo.static_prefix + "/transcode?date=" + wbinfo.timestamp + "&url=" + encodeURIComponent(flvUrl);
+      src = wbinfo.static_prefix + "transcode?date=" + wbinfo.timestamp + "&url=" + encodeURIComponent(flvUrl);
     } else {
       continue;
     }
