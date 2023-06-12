@@ -1,6 +1,6 @@
 collections:
   awa-nobanner:
     archive_paths: WARC_URL
-    index: xmlquery+CDX_URL
+    index: cdx+CDX_URL
 framed_replay: false
 redirect_to_exact: false

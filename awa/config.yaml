@@ -1,6 +1,6 @@
 collections:
   awa:
     archive_paths: WARC_URL
-    index: xmlquery+CDX_URL
+    index: cdx+CDX_URL
 
 redirect_to_exact: true
