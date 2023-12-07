@@ -4,3 +4,4 @@ collections:
     index: cdx+CDX_URL
 
 redirect_to_exact: true
+rules_file: rules.yaml

@@ -4,3 +4,4 @@ collections:
     index: cdx+CDX_URL
 framed_replay: false
 redirect_to_exact: false
+rules_file: rules.yaml

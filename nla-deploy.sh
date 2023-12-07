@@ -12,3 +12,7 @@ virtualenv-3.6 --relocatable $dest
 cp -a awa awa-nobanner $dest
 sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" $dest/awa/config.yaml
 sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" $dest/awa-nobanner/config.yaml
+
+PYWB_PKG="$(python -c 'import os,pywb as _; print(os.path.dirname(_.__file__))')"
+sed '/^rules:/ r rules-extra.yaml' ~/src/pywb/pywb/rules.yaml > $dest/awa/rules.yaml
+cp $dest/awa/rules.yaml $dest/awa-nobanner/rules.yaml
