@@ -5,17 +5,19 @@ dest=$1
 
 # use virtualenv-3.6 if available (RHEL < 9), otherwise use virtualenv (RHEL >= 9)
 if command -v virtualenv-3.6 > /dev/null; then
-    virtualenv-3.6 $dest
+  virtualenv=virtualenv-3.6
 else
-    virtualenv $dest
+  virtualenv=virtualenv
 fi
+
+$virtualenv $dest
 
 $dest/bin/pip install git+https://github.com/nla/pywb.git@v-2.7.4-nla3
 #$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@v-2.6.6
 $dest/bin/pip install wheel
 $dest/bin/pip install uwsgi
 $dest/bin/pip install gevent
-virtualenv-3.6 --relocatable $dest
+$virtualenv --relocatable $dest
 cp -a awa awa-nobanner $dest
 sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" $dest/awa/config.yaml
 sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" $dest/awa-nobanner/config.yaml
