@@ -2,7 +2,14 @@
 set -eu
 
 dest=$1
-virtualenv-3.6 $dest
+
+# use virtualenv-3.6 if available (RHEL < 9), otherwise use virtualenv (RHEL >= 9)
+if command -v virtualenv-3.6 > /dev/null; then
+    virtualenv-3.6 $dest
+else
+    virtualenv $dest
+fi
+
 $dest/bin/pip install git+https://github.com/nla/pywb.git@v-2.7.4-nla3
 #$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@v-2.6.6
 $dest/bin/pip install wheel
