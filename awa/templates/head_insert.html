@@ -73,7 +73,16 @@ document.addEventListener("DOMContentLoaded", function() {
     fields[i].title = 'Password fields are disabled in the web archive';
   }
 
-  // Site-specific workarounds:
+  // replace real media and quicktime embeds with a video tag for the transcoding service
+  for (const embed of document.querySelectorAll('embed[src*=".rm"], embed[src*=".mov"]')) {
+      const video = document.createElement('video');
+      video.preload = 'none';
+      video.src = wbinfo.static_prefix + "transcode?date=" + wbinfo.timestamp + "&url=" + encodeURIComponent(embed.src);
+      video.controls = true;
+      video.width = embed.width;
+      video.height = embed.height;
+      embed.parentNode.replaceChild(video, embed);
+  }
 
   // replace old flash video player with a HTML5 video tag
   // eg https://webarchive.nla.gov.au/awa/20131211003215/http://pandora.nla.gov.au/pan/120423/20131210-0041/www.youtube.com/watch78bd.html
