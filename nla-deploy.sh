@@ -3,14 +3,7 @@ set -eu
 
 dest=$1
 
-# use virtualenv-3.6 if available (RHEL < 9), otherwise use virtualenv (RHEL >= 9)
-if command -v virtualenv-3.6 > /dev/null; then
-  virtualenv=virtualenv-3.6
-else
-  virtualenv=virtualenv
-fi
-
-$virtualenv $dest
+python3.11 -m venv $dest
 
 $dest/bin/pip install git+https://github.com/nla/pywb.git
 #$dest/bin/pip install git+https://github.com/nla/pywb.git@v-2.7.4-nla4
