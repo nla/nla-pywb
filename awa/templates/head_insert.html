@@ -118,9 +118,8 @@ if (wbinfo.url.startsWith("http://www.unolympics.com/")) {
   document.layers = true; // trick version detection into thinking we're Netscape 4
 }
 // https://webarchive.nla.gov.au/awa/20170802002621/http://pandora.nla.gov.au/pan/14247/20170802-0307/www.gymnastics.org.au/index.html
-if (wbinfo.url.match("/www.gymnastics.org.au/")) {
-  document.cookie = "Asi.Web.Browser.CookiesEnabled=true;path=/;SameSite=None;Secure"; // trick cookie detection logic
-}
+// https://webarchive.nla.gov.au/awa/20241007234200/http://pandora.nla.gov.au/pan/212754/20241008-1042/www.asuvictas.com.au/VICTAS/Campaigns/Victorian_Local_Council_Elections.aspx
+document.cookie = "Asi.Web.Browser.CookiesEnabled=true;path=/;SameSite=None;Secure"; // trick cookie detection logic
 </script>
 <script src="{{ static_prefix }}/ruffle/20210126/ruffle.js"></script>
 <script>
