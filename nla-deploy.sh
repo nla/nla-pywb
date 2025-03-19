@@ -4,7 +4,9 @@ set -eu
 dest=$1
 
 # use virtualenv-3.6 if available (RHEL < 9), otherwise use virtualenv (RHEL >= 9)
-if command -v virtualenv-3.6 > /dev/null; then
+if command -v python3.11 > /dev/null; then
+  virtualenv='python3.11 -m virtualenv'
+elif command -v virtualenv-3.6 > /dev/null; then
   virtualenv=virtualenv-3.6
 else
   virtualenv=virtualenv
