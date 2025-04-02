@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+      html, body
+      {
+          height: 100%;
+          margin: 0px;
+          padding: 0px;
+          border: 0px;
+          overflow: hidden;
+      }
+
+      #wb_iframe_div, #replay_iframe {
+          width: 100%;
+          height: 100%;
+      }
+  </style>
+
+  {% if client_side_replay %}
+  <script src='{{ static_prefix }}/loadWabac.js'></script>
+  <script>
+      new WabacReplay("{{ wb_prefix }}", "{{ url }}", "{{ timestamp }}", "{{ static_prefix }}", "{{ coll }}", "{{ sw_prefix }}").init();
+  </script>
+  {% else %}
+  <script src='{{ static_prefix }}/wb_frame.js'> </script>
+  {% endif %}
+
+  {% autoescape false %}
+</head>
+<body>
+
+<div id="wb_iframe_div">
+  <iframe id="replay_iframe" frameborder="0" seamless="seamless" scrolling="yes" class="wb_iframe" allow="autoplay; fullscreen"></iframe>
+</div>
+
+<script>
+    const iframeContentWindow = document.getElementById('replay_iframe').contentWindow;
+    window.addEventListener('message', (event) => {
+        if (event.source !== iframeContentWindow) return;
+        window.parent.postMessage(event.data, '*');
+    });
+</script>
+
+{% if not client_side_replay %}
+<script>
+    var cframe = new ContentFrame({"url": "{{ url }}" + window.location.hash,
+        "prefix": "{{ wb_prefix }}",
+        "request_ts": "{{ wb_url.timestamp }}",
+        "iframe": "#replay_iframe"});
+
+</script>
+{% endif %}
+</body>
+</html>
+{% endautoescape %}
+
