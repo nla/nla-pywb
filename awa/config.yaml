@@ -8,3 +8,4 @@ collections:
 #redirect_to_exact: true
 
 rules_file: rules.yaml
+client_side_replay: true
