@@ -12,7 +12,7 @@ fi
 
 $virtualenv $dest
 
-$dest/bin/pip install git+https://github.com/nla/pywb.git@v-2.7.4-nla4
+$dest/bin/pip install git+https://github.com/nla/pywb.git@v-2.7.4-nla5
 #$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@v-2.6.6
 $dest/bin/pip install wheel
 $dest/bin/pip install uwsgi
