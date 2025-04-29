@@ -1,7 +1,7 @@
 
 ARG docker_registry=nla-registry-quay-quay.apps.dev-containers.nla.gov.au/
 FROM ${docker_registry}nla/ubi8-minimal
-
+USER root
 RUN microdnf repolist -v
 RUN microdnf install -y python3.11-pip && microdnf clean all
 RUN pip3.11 --no-cache-dir install --index-url https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple pywb==2.9.0b0 gunicorn
