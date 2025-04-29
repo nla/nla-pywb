@@ -5,7 +5,7 @@ USER root
 RUN microdnf repolist
 RUN microdnf install -y python3.11-pip && microdnf clean all
 RUN pip3.11 --no-cache-dir install --index-url https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple pywb==2.9.0b0 gunicorn
-RUN adduser pywb && mkdir /data
+RUN useradd -m pywb && mkdir /data
 USER pywb
 WORKDIR /data
 
