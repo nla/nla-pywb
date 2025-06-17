@@ -15,7 +15,8 @@ fi
 $virtualenv $dest
 
 #$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@issue-924-client-side-playback
-$dest/bin/pip install git+https://github.com/nla/pywb.git@issue-924-client-side-playback-patched
+$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@8ea2f74517161c1fc91ca969cea6328a20f5dce6
+#$dest/bin/pip install git+https://github.com/nla/pywb.git@issue-924-client-side-playback-patched
 #$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@v-2.6.6
 $dest/bin/pip install wheel
 $dest/bin/pip install uwsgi
