@@ -1,6 +1,6 @@
 ARG VERSION=2.9.0-b0
 ARG pypi_index=https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple
-ARG docker_registry=nla-registry-quay-quay.apps.dev-containers.nla.gov.au/
+ARG docker_registry=container-registry.nla.gov.au/
 FROM ${docker_registry}nla/ubi8-minimal-mirrored
 
 USER root
