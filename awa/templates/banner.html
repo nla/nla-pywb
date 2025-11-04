@@ -1,0 +1,28 @@
+{#
+ # We don't use pywb's UI so this replaces it with stubs that just forward messages
+ # to the parent frame.
+ #}
+<style>
+    #wb_iframe_div, #replay_iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    #app {
+        display: none;
+    }
+</style>
+<script>
+    const VueUI = {
+        main: function () {
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const iframeContentWindow = document.getElementById('replay_iframe').contentWindow;
+        window.addEventListener('message', (event) => {
+            if (event.source !== iframeContentWindow) return;
+            window.parent.postMessage(event.data, '*');
+        });
+    });
+</script>
