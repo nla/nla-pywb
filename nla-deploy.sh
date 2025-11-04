@@ -28,4 +28,4 @@ sed '/^rules:/ r rules-extra.yaml' $dest/lib/python*/site-packages/pywb/rules.ya
 cp $dest/awa/rules.yaml $dest/awa-nobanner/rules.yaml
 
 curl -sSfLo ruffle.zip https://github.com/ruffle-rs/ruffle/releases/download/nightly-2025-11-04/ruffle-nightly-2025_11_04-web-selfhosted.zip
-unzip -d "$dest/static/ruffle" ruffle.zip
+unzip -d "$dest/awa/static/ruffle" ruffle.zip
