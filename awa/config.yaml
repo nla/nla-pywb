@@ -9,3 +9,7 @@ collections:
 
 rules_file: rules.yaml
 client_side_replay: true
+
+inject_scripts:
+  - ruffle/ruffle.js
+  - tweaks.js

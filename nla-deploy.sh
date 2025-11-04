@@ -14,17 +14,18 @@ fi
 
 $virtualenv $dest
 
-#$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@issue-924-client-side-playback
-#$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@8ea2f74517161c1fc91ca969cea6328a20f5dce6
-$dest/bin/pip install git+https://github.com/nla/pywb.git
-#$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@v-2.6.6
+$dest/bin/pip install git+https://github.com/webrecorder/pywb.git@inject_scripts-option
+#$dest/bin/pip install git+https://github.com/nla/pywb.git
 $dest/bin/pip install wheel
 $dest/bin/pip install uwsgi
 $dest/bin/pip install gevent
 $virtualenv --relocatable $dest || echo "virtualenv doesnt support relocatable (probably ok)"
-cp -a awa awa-nobanner $dest
+cp -a awa awa-nobanner static $dest
 sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" $dest/awa/config.yaml
 sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" $dest/awa-nobanner/config.yaml
 
 sed '/^rules:/ r rules-extra.yaml' $dest/lib/python*/site-packages/pywb/rules.yaml > $dest/awa/rules.yaml
 cp $dest/awa/rules.yaml $dest/awa-nobanner/rules.yaml
+
+curl -sSfLo ruffle.zip https://github.com/ruffle-rs/ruffle/releases/download/nightly-2025-11-04/ruffle-nightly-2025_11_04-web-selfhosted.zip
+unzip -d "$dest/static/ruffle" ruffle.zip
