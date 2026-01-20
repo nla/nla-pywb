@@ -1,7 +1,10 @@
-ARG VERSION=2.9.0-b0
+ARG VERSION=2.10.0b1
 ARG pypi_index=https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple
-ARG docker_registry=nla-registry-quay-quay.apps.dev-containers.nla.gov.au/
+ARG docker_registry=container-registry.nla.gov.au/
 FROM ${docker_registry}nla/ubi8-minimal-mirrored
+
+ARG VERSION
+ARG pypi_index
 
 USER root
 RUN microdnf install -y python3.11-pip shadow-utils && microdnf clean all
