@@ -31,6 +31,10 @@ RUN mkdir -p /data/awa/static/ruffle && \
     chown pywb:pywb /data/awa/rules.yaml && \
     rm /tmp/rules-extra.yaml
 
+
+# workaround openshift permissions issues
+RUN chgrp -R 0 /data && chmod -R g=u /data
+
 USER pywb
 WORKDIR /data/awa
 EXPOSE 8080
