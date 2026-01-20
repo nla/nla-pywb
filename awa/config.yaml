@@ -3,7 +3,6 @@ collections:
     archive_paths: WARC_URL
     index: cdx+CDX_URL
 
-
 # Disabled as it interferes with path-scoped cookies
 #redirect_to_exact: true
 

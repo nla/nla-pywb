@@ -1,6 +1,23 @@
 # nla-pywb
 pywb config overlay for the Australian Web Archive
 
+## Container Usage
+
+### Build
+```bash
+podman build -t nla-pywb .
+```
+
+### Run
+To run the container manually, you must provide the `CDX_URL` and `WARC_URL` environment variables.
+
+```bash
+podman run -p 8080:8080 \
+  -e CDX_URL="http://pandas.nla.gov.au/cdx/trove" \
+  -e WARC_URL="http://pandas.nla.gov.au/bamboo/warcs/" \
+  nla-pywb
+```
+
 ## jvmctl config
 ```
 PORT=8080
