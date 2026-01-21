@@ -19,6 +19,7 @@ RUN mkdir -p /tmp/ruffle && \
     rm /tmp/ruffle.zip
 
 COPY --chown=pywb:pywb awa /data/awa
+COPY --chown=pywb:pywb pywb_proxyfix.py /data/awa/pywb_proxyfix.py
 COPY rules-extra.yaml /tmp/rules-extra.yaml
 
 # Move Ruffle into the static directory and setup rules.yaml
@@ -43,4 +44,4 @@ ENV CDX_URL=http://pandas.nla.gov.au/cdx/trove
 ENV WARC_URL=http://pandas.nla.gov.au/bamboo/warcs/
 
 CMD sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" config.yaml && \
-    gunicorn -w 16 --limit-request-line 9000 --preload pywb.apps.wayback -b 0.0.0.0:8080
+    gunicorn -w 9 --limit-request-line 9000 --preload pywb_proxyfix -b 0.0.0.0:8080
