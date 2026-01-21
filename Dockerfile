@@ -1,8 +1,8 @@
 # Build with: podman build . -t pywb
 ARG VERSION=2.10.0b1
 ARG pypi_index=https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple
-ARG docker_registry=container-registry.nla.gov.au/
-FROM ${docker_registry}nla/ubi8-minimal-mirrored
+ARG docker_registry=container-registry.prod.nla.gov.au/
+FROM ${docker_registry}redhat/ubi9/ubi-minimal
 
 ARG VERSION
 ARG pypi_index
@@ -32,16 +32,8 @@ RUN mkdir -p /data/awa/static/ruffle && \
     chown pywb:pywb /data/awa/rules.yaml && \
     rm /tmp/rules-extra.yaml
 
-
-# workaround openshift permissions issues
-RUN chgrp -R 0 /data && chmod -R g=u /data
-
 USER pywb
 WORKDIR /data/awa
 EXPOSE 8080
 
-ENV CDX_URL=http://pandas.nla.gov.au/cdx/trove
-ENV WARC_URL=http://pandas.nla.gov.au/bamboo/warcs/
-
-CMD sed -i -e "s|CDX_URL|$CDX_URL|" -e "s|WARC_URL|$WARC_URL|" config.yaml && \
-    gunicorn -w 9 --limit-request-line 9000 --preload pywb_proxyfix -b 0.0.0.0:8080
+CMD gunicorn -w 9 --limit-request-line 9000 --preload pywb_proxyfix -b 0.0.0.0:8080
