@@ -6,11 +6,10 @@ ARG docker_registry=container-registry.prod.nla.gov.au/
 # Stage 1: fetch/unpack Ruffle
 # --------------------------
 FROM ${docker_registry}redhat/ubi9/ubi-minimal AS ruffle
-ARG RUFFLE_VERSION=nightly-2025-11-04
-ARG RUFFLE_URL=https://github.com/ruffle-rs/ruffle/releases/download/${RUFFLE_VERSION}/${RUFFLE_VERSION}-web-selfhosted.zip
+ARG RUFFLE_URL=https://github.com/ruffle-rs/ruffle/releases/download/nightly-2026-01-27/ruffle-nightly-2026_01_27-web-selfhosted.zip
 
 RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \
-      curl unzip ca-certificates \
+      unzip ca-certificates \
     && microdnf clean all
 
 RUN set -eux; \
@@ -39,7 +38,7 @@ RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \
     && microdnf clean all
 
 RUN python3.11 -m pip install --index-url "${pypi_index}" \
-      "pywb==${VERSION}" gunicorn
+      "pywb==${VERSION}" gunicorn setuptools
 
 RUN useradd -m -u 10001 -s /sbin/nologin pywb
 RUN mkdir -p /app/pywb /etc/pywb
