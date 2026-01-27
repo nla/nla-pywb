@@ -34,10 +34,10 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PYWB_CONFIG_FILE=/etc/pywb/config.yaml
 
 RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \
-      python3.11 python3.11-pip shadow-utils ca-certificates \
+      python3.12 python3.12-pip shadow-utils ca-certificates \
     && microdnf clean all
 
-RUN python3.11 -m pip install --index-url "${pypi_index}" \
+RUN python3.12 -m pip install --index-url "${pypi_index}" \
       "pywb==${VERSION}" gunicorn setuptools
 
 RUN useradd -m -u 10001 -s /sbin/nologin pywb
@@ -51,7 +51,7 @@ COPY --from=ruffle /out /app/pywb/static/ruffle
 
 # Build rules.yaml
 RUN set -eux; \
-    PYWB_RULES="$(python3.11 -c "import pywb, os; print(os.path.join(os.path.dirname(pywb.__file__), 'rules.yaml'))")"; \
+    PYWB_RULES="$(python3.12 -c "import pywb, os; print(os.path.join(os.path.dirname(pywb.__file__), 'rules.yaml'))")"; \
     sed "/^rules:/ r /tmp/rules-extra.yaml" "$PYWB_RULES" > /app/pywb/rules.yaml; \
     rm -f /tmp/rules-extra.yaml
 
