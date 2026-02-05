@@ -18,6 +18,15 @@ podman run -p 8080:8080 \
   nla-pywb
 ```
 
+### Deploy to NLA kubernetes environment
+
+```bash
+podman build -t nla/pywb --platform linux/amd64 .
+podman push nla/pywb container-registry.prod.nla.gov.au/nla/pywb:$VERSION
+```
+
+Update version number in `.gitops/pywb/*/values.yaml` in nla/argocd talos branch.
+
 ## jvmctl config
 ```
 PORT=8080
