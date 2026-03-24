@@ -38,7 +38,7 @@ RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \
     && microdnf clean all
 
 RUN python3.12 -m pip install --index-url "${pypi_index}" \
-      "pywb==${VERSION}" gunicorn setuptools
+      "pywb==${VERSION}" gunicorn "setuptools<81"
 
 RUN useradd -m -u 10001 -s /sbin/nologin pywb
 RUN mkdir -p /app/pywb /etc/pywb
