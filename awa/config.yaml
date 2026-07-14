@@ -3,8 +3,12 @@ collections:
     archive_paths: WARC_URL
     index: cdx+CDX_URL
 
-
 # Disabled as it interferes with path-scoped cookies
 #redirect_to_exact: true
 
 rules_file: rules.yaml
+client_side_replay: true
+
+inject_scripts:
+  - ruffle/ruffle.js
+  - tweaks.js

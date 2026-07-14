@@ -1,16 +1,61 @@
-ARG VERSION=2.9.0-b0
-#ARG pypi_index=https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple
+ARG VERSION=2.10.0b1
+ARG pypi_index=https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple
 ARG docker_registry=container-registry.prod.nla.gov.au/
-FROM ${docker_registry}redhat/ubi10/ubi-minimal
 
-USER root
-RUN microdnf install -y python3-pip shadow-utils git-core && microdnf clean all
-RUN pip install --upgrade pip && pip --no-cache-dir install gunicorn git+https://github.com/webrecorder/pywb.git@9de84beead449b1ad61c756e9c031b9e6cc645e6
-RUN useradd -m pywb && mkdir /data
+# --------------------------
+# Stage 1: fetch/unpack Ruffle
+# --------------------------
+FROM ${docker_registry}redhat/ubi9/ubi-minimal AS ruffle
+ARG RUFFLE_URL=https://github.com/ruffle-rs/ruffle/releases/download/nightly-2026-01-27/ruffle-nightly-2026_01_27-web-selfhosted.zip
+
+RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \
+      unzip ca-certificates \
+    && microdnf clean all
+
+RUN set -eux; \
+    mkdir -p /out; \
+    curl -fsSL -o /tmp/ruffle.zip "${RUFFLE_URL}"; \
+    unzip -q /tmp/ruffle.zip -d /out; \
+    rm -f /tmp/ruffle.zip
+
+
+# --------------------------
+# Stage 2: runtime image
+# --------------------------
+FROM ${docker_registry}redhat/ubi9/ubi-minimal
+
+ARG VERSION
+ARG pypi_index
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYWB_CONFIG_FILE=/etc/pywb/config.yaml
+
+RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \
+      python3.12 python3.12-pip shadow-utils ca-certificates \
+    && microdnf clean all
+
+RUN python3.12 -m pip install --index-url "${pypi_index}" \
+      "pywb==${VERSION}" gunicorn "setuptools<81"
+
+RUN useradd -m -u 10001 -s /sbin/nologin pywb
+RUN mkdir -p /app/pywb /etc/pywb
+
+COPY pywb_proxyfix.py /app/pywb/pywb_proxyfix.py
+COPY awa/templates/ /app/pywb/templates/
+COPY awa/static/ /app/pywb/static/
+COPY rules-extra.yaml /tmp/rules-extra.yaml
+COPY --from=ruffle /out /app/pywb/static/ruffle
+
+# Build rules.yaml
+RUN set -eux; \
+    PYWB_RULES="$(python3.12 -c "import pywb, os; print(os.path.join(os.path.dirname(pywb.__file__), 'rules.yaml'))")"; \
+    sed "/^rules:/ r /tmp/rules-extra.yaml" "$PYWB_RULES" > /app/pywb/rules.yaml; \
+    rm -f /tmp/rules-extra.yaml
 
 USER pywb
-WORKDIR /data
+WORKDIR /app/pywb
 EXPOSE 8080
-VOLUME /data
-
-CMD gunicorn -w 16 --limit-request-line 9000 --preload pywb.apps.wayback -b 0.0.0.0:8080
+CMD gunicorn -w 9 --limit-request-line 9000 --preload pywb_proxyfix -b 0.0.0.0:8080
