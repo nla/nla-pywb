@@ -60,5 +60,13 @@ if (wbinfo.url.startsWith("http://www.unolympics.com/")) {
 // https://webarchive.nla.gov.au/awa/20241007234200/http://pandora.nla.gov.au/pan/212754/20241008-1042/www.asuvictas.com.au/VICTAS/Campaigns/Victorian_Local_Council_Elections.aspx
 document.cookie = "Asi.Web.Browser.CookiesEnabled=true;path=/;SameSite=None;Secure"; // trick cookie detection logic
 
+// https://webarchive.nla.gov.au/awa/20001213070000/http://olympics.com.au/PhotoGallery/0,1140,,00.html
+if (wbinfo.url.startsWith("http://olympics.com.au/")) {
+    // disable broken redirect to frameset
+    document.addEventListener("DOMContentLoaded", function () {
+        window.check_frame = function () {};
+    });
+}
+
 window.RufflePlayer.config.autoplay = "on";
 window.RufflePlayer.config.unmuteOverlay = "hidden";
