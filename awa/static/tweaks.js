@@ -68,5 +68,50 @@ if (wbinfo.url.startsWith("http://olympics.com.au/")) {
     });
 }
 
+// https://webarchive.nla.gov.au/awa/20260413140021/https://www.shrine.org.au/
+// The archived page has useful SSR content, but Nuxt replaces it with its fatal error component when a dynamically imported chunk is not archived.
+// Keep a copy of the SSR tree and put it back if that happens.
+if (wbinfo.url.startsWith("https://www.shrine.org.au/")) {
+    (function () {
+        var savedNuxtRoot = null;
+
+        function saveNuxtRoot() {
+            var root = document.getElementById("__nuxt");
+            if (!savedNuxtRoot && root && !root.querySelector(".rpl-error-message") &&
+                (root.querySelector(".rpl-layout") || root.querySelector("main"))) {
+                savedNuxtRoot = root.cloneNode(true);
+            }
+        }
+
+        function restoreNuxtRoot() {
+            var root = document.getElementById("__nuxt");
+            if (!savedNuxtRoot || !root || !root.querySelector(".rpl-error-message")) {
+                return;
+            }
+
+            var restored = savedNuxtRoot.cloneNode(true);
+            while (root.firstChild) {
+                root.removeChild(root.firstChild);
+            }
+            while (restored.firstChild) {
+                root.appendChild(restored.firstChild);
+            }
+        }
+
+        // This runs before the deferred Nuxt module and catches the SSR DOM
+        // even when the failure occurs before DOMContentLoaded.
+        var observer = new MutationObserver(function () {
+            saveNuxtRoot();
+            restoreNuxtRoot();
+        });
+        observer.observe(document.documentElement, {childList: true, subtree: true});
+
+        document.addEventListener("DOMContentLoaded", function () {
+            saveNuxtRoot();
+            restoreNuxtRoot();
+        });
+    }());
+}
+
 window.RufflePlayer.config.autoplay = "on";
 window.RufflePlayer.config.unmuteOverlay = "hidden";
