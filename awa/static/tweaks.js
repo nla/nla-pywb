@@ -68,5 +68,14 @@ if (wbinfo.url.startsWith("http://olympics.com.au/")) {
     });
 }
 
+// all vic gov't 'Single Digital Presence' CMS sites: disable nuxt
+var replayHostname = new URL(wbinfo.url).hostname;
+if (replayHostname === "www.shrine.org.au" || replayHostname.endsWith(".vic.gov.au")) {
+    document.addEventListener("readystatechange", function () {
+        if (document.readyState !== "interactive") return;
+        document.getElementById("__nuxt")?.setAttribute("id", "__nuxt-disabled-for-replay");
+    });
+}
+
 window.RufflePlayer.config.autoplay = "on";
 window.RufflePlayer.config.unmuteOverlay = "hidden";
