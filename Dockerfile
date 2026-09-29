@@ -1,4 +1,4 @@
-ARG VERSION=2.10.0b1
+ARG VERSION=2.10.0
 ARG pypi_index=https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple
 ARG docker_registry=container-registry.prod.nla.gov.au/
 
@@ -34,11 +34,11 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PYWB_CONFIG_FILE=/etc/pywb/config.yaml
 
 RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \
-      python3.12 python3.12-pip shadow-utils ca-certificates git-core \
+      python3.12 python3.12-pip shadow-utils ca-certificates \
     && microdnf clean all
 
 RUN python3.12 -m pip install --index-url "${pypi_index}" \
-      git+https://github.com/webrecorder/pywb.git@a4f611d1726eda003974420731287b2f52c85474 gunicorn "setuptools<81"
+      "pywb==${VERSION}" gunicorn "setuptools<81"
 
 RUN useradd -m -u 10001 -s /sbin/nologin pywb
 RUN mkdir -p /app/pywb /etc/pywb
