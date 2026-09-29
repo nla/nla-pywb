@@ -99,8 +99,8 @@ node('spade') {
                             exit 0
                         fi
 
-                        git config user.name 'pywb deployment bot'
-                        git config user.email 'pywb-deploy@nla.gov.au'
+                        git config user.name 'pandas-ui deployment bot'
+                        git config user.email 'pandas-ui-deploy@nla.gov.au'
                         git add $VALUES_FILES
                         git commit -m "pywb/devel: deploy ${IMAGE_VERSION}"
                     '''
