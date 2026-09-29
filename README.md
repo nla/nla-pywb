@@ -20,12 +20,12 @@ podman run -p 8080:8080 \
 
 ### Deploy to NLA kubernetes environment
 
-```bash
-podman build -t nla/pywb --platform linux/amd64 .
-podman push nla/pywb container-registry.prod.nla.gov.au/nla/pywb:$VERSION
-```
+Jenkins builds the image for every branch (see `Jenkinsfile`).
 
-Update version number in `.gitops/pywb/*/values.yaml` in nla/argocd talos branch.
+- **master**: pushes `container-registry.prod.nla.gov.au/nla/pywb:master-<commit>` and deploys it to devel
+  by updating `version` in `.gitops/pandas-pywb-{public,qa}/devel/values.yaml` on the nla/argocd talos branch.
+- **tags**: pushes `container-registry.prod.nla.gov.au/nla/pywb:<tag>` (e.g. `2.10.0-nla1`). To deploy
+  to test or prod, update `version` in `.gitops/pandas-pywb-*/{test,prod}/values.yaml` on the talos branch by hand.
 
 ## jvmctl config
 ```
