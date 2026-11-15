@@ -1,4 +1,4 @@
-ARG VERSION=2.10.0
+ARG VERSION=2.11.1
 ARG pypi_index=https://dev.nla.gov.au/nexus/repository/pypi-proxy/simple
 ARG docker_registry=container-registry.prod.nla.gov.au/
 
